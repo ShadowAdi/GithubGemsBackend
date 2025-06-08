@@ -44,7 +44,7 @@ class CommentResponse(CommentBase):
         from_attributes = True
 
 
-class RepoResponseWithMessage(BaseModel):
+class CommentResponseWithMessage(BaseModel):
     message: str
     comment: CommentResponse
 
