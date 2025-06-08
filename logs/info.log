@@ -72,3 +72,4 @@ WHERE "postedRepos"."repoName" = %(repoName_1)s
 2025-06-08 17:43:18,957 - app.config.logger - ERROR - Validation Failed [{'type': 'missing', 'loc': ('body', 'username'), 'msg': 'Field required', 'input': {'email': 'adi@gmail.com', 'password': 'iloveadi', 'name': 'adi', 'languages': ['go']}}]
 2025-06-08 17:43:28,286 - app.config.logger - INFO - User Created Successfully
 2025-06-08 17:43:58,659 - app.config.logger - INFO - Authenticated User Found
+2025-06-08 17:44:33,998 - app.config.logger - INFO - Repo With Id: 1 has been fetched successfully
