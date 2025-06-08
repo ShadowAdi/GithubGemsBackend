@@ -51,3 +51,11 @@ class RepoUpdate(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class RepoResponseWithMessage(BaseModel):
+    message: str
+    repo: RepoResponse
+
+    class Config:
+        from_attributes = True

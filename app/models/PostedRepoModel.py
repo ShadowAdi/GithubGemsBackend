@@ -27,8 +27,8 @@ class PostedRepos(Base):
 
     comments = relationship("CommentModel", back_populates="commentPostedOn")
 
-    upvotedUserIds = Column(ARRAY(Integer), default=list)
-    downvotedUserIds = Column(ARRAY(Integer), default=list)
+    upvotedUserIds = Column(JSON, default=list)
+    downvotedUserIds = Column(JSON, default=list)
 
     upvotesCount = Column(Integer, default=0)
     downvotesCount = Column(Integer, default=0)

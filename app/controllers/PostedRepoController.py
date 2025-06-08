@@ -1,19 +1,10 @@
-from fastapi import Depends, HTTPException
+from fastapi import  HTTPException
 from app.schemas import RepoResponse, RepoCreate, RepoUpdate
-from sqlalchemy.orm import Session
 from app.api import GetRepoInfoUrl
 from app.config import logger
 from app.utils import extract_owner_repo
 from app.models import PostedRepos, User
-
-
 from sqlalchemy.orm import Session, joinedload
-from fastapi import Depends, HTTPException
-from app.schemas import RepoResponse, RepoCreate, RepoUpdate
-from app.models import PostedRepos, User
-from app.api import GetRepoInfoUrl
-from app.config import logger
-from app.utils import extract_owner_repo
 
 
 async def create_repo_post(
@@ -190,3 +181,76 @@ async def deleteRepo(db: Session, repoId: int, userId: int):
             status_code=500,
             detail=f"Something went wrong while deleting repo posts. {str(e)}",
         )
+
+
+async def likeRepo(db: Session, repoId: int, userId: int):
+    try:
+        repo = db.query(PostedRepos).filter(PostedRepos.id == repoId).first()
+        if not repo:
+            raise HTTPException(status_code=404, detail="Repo not found")
+        
+        # Initialize as empty lists if None
+        upvoted_users = repo.upvotedUserIds or []
+        downvoted_users = repo.downvotedUserIds or []
+        
+        if userId in upvoted_users:
+            # Remove like
+            repo.upvotedUserIds = [uid for uid in upvoted_users if uid != userId]
+            repo.upvotesCount -= 1
+            message = "Like removed"
+        else:
+            # Add like
+            repo.upvotedUserIds = upvoted_users + [userId]
+            repo.upvotesCount += 1
+            message = "Post liked"
+            
+            # Remove from dislikes if exists (mutual exclusion)
+            if userId in downvoted_users:
+                repo.downvotedUserIds = [uid for uid in downvoted_users if uid != userId]
+                repo.downvotesCount -= 1
+        
+        db.commit()
+        db.refresh(repo)
+        
+        return {"message": message, "repo": RepoResponse.model_validate(repo)}
+    
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error in likeRepo: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error liking repo: {str(e)}")
+
+async def dislikeRepo(db: Session, repoId: int, userId: int):
+    try:
+        repo = db.query(PostedRepos).filter(PostedRepos.id == repoId).first()
+        if not repo:
+            raise HTTPException(status_code=404, detail="Repo not found")
+        
+        # Initialize as empty lists if None
+        upvoted_users = repo.upvotedUserIds or []
+        downvoted_users = repo.downvotedUserIds or []
+        
+        if userId in downvoted_users:
+            # Remove dislike
+            repo.downvotedUserIds = [uid for uid in downvoted_users if uid != userId]
+            repo.downvotesCount -= 1
+            message = "Dislike removed"
+        else:
+            # Add dislike
+            repo.downvotedUserIds = downvoted_users + [userId]
+            repo.downvotesCount += 1
+            message = "Post disliked"
+            
+            # Remove from likes if exists (mutual exclusion)
+            if userId in upvoted_users:
+                repo.upvotedUserIds = [uid for uid in upvoted_users if uid != userId]
+                repo.upvotesCount -= 1
+        
+        db.commit()
+        db.refresh(repo)
+        
+        return {"message": message, "repo": RepoResponse.model_validate(repo)}
+    
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error in dislikeRepo: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error disliking repo: {str(e)}")

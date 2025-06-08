@@ -11,5 +11,7 @@ from .PostedRepoController import (
     deleteRepo,
     get_all_repos,
     updateRepo,
-    get_repo
+    get_repo,
+    likeRepo,
+    dislikeRepo
 )

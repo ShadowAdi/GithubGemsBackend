@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, status, Body
-from app.schemas import RepoResponse, RepoCreate, RepoUpdate
+from app.schemas import RepoResponse, RepoCreate, RepoUpdate,RepoResponseWithMessage
 from sqlalchemy.orm import Session
 from app.dependency import get_current_user
 from app.database import connect_db
@@ -9,6 +9,8 @@ from app.controllers import (
     get_repo,
     deleteRepo,
     updateRepo,
+    likeRepo,
+    dislikeRepo,
 )
 
 RepoRouter = APIRouter(prefix="/posts")
@@ -62,4 +64,27 @@ async def delete_repo(
     db: Session = Depends(connect_db),
     authenticateUser=Depends(get_current_user),
 ):
+    print("authenticated user ", authenticateUser)
     return await deleteRepo(db=db, repoId=repoId, userId=authenticateUser["id"])
+
+
+@RepoRouter.patch(
+    "/repo/repo-like/{repoId}", status_code=status.HTTP_200_OK, response_model=RepoResponseWithMessage
+)
+async def likeRepoApi(
+    repoId: int,
+    db: Session = Depends(connect_db),
+    authenticateUser=Depends(get_current_user),
+):
+    return await likeRepo(db=db, repoId=repoId, userId=authenticateUser["id"])
+
+
+@RepoRouter.patch(
+    "/repo/repo-dislike/{repoId}", status_code=status.HTTP_200_OK, response_model=RepoResponseWithMessage
+)
+async def dislikeRepoApi(
+    repoId: int,
+    db: Session = Depends(connect_db),
+    authenticateUser=Depends(get_current_user),
+):
+    return await dislikeRepo(db=db, repoId=repoId, userId=authenticateUser["id"])
