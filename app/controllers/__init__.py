@@ -13,5 +13,6 @@ from .PostedRepoController import (
     updateRepo,
     get_repo,
     likeRepo,
-    dislikeRepo
+    dislikeRepo,
 )
+from .CommentController import create_comment

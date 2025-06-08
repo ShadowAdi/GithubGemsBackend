@@ -1,11 +1,14 @@
-from pydantic import BaseModel, Field
+from __future__ import annotations  # Important for Python <3.10 for forward references
+
+from pydantic import BaseModel
 from typing import List, Optional, TYPE_CHECKING
-from app.schemas.UserSchema import UserResponse
-from app.schemas.RepoSchema import RepoBase
 
 if TYPE_CHECKING:
     from app.schemas.UserSchema import UserResponse
     from app.schemas.RepoSchema import RepoBase
+else:
+    UserResponse = None  # type: ignore
+    RepoBase = None      # type: ignore
 
 
 class CommentBase(BaseModel):
@@ -21,8 +24,6 @@ class CommentBase(BaseModel):
 
 class CommentCreate(BaseModel):
     commentText: str
-    postId: int
-    parentId: Optional[int] = None
 
     class Config:
         from_attributes = True
@@ -51,5 +52,3 @@ class CommentResponseWithMessage(BaseModel):
     class Config:
         from_attributes = True
 
-
-CommentResponse.update_forward_refs()

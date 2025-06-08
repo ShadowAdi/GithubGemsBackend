@@ -8,6 +8,7 @@ from app.schemas import (
     CommentUpdate,
     CommentResponseWithMessage,
 )
+from app.controllers import create_comment
 
 CommentRouter = APIRouter(prefix="/comments")
 
@@ -15,20 +16,25 @@ CommentRouter = APIRouter(prefix="/comments")
 @CommentRouter.get(
     "/{postId}", status_code=status.HTTP_200_OK, response_model=list[CommentResponse]
 )
-async def get_comments(postId:int,db: Session = Depends(connect_db)):
+async def get_comments(postId: int, db: Session = Depends(connect_db)):
     pass
 
 
 @CommentRouter.post(
     "/{postId}", status_code=status.HTTP_201_CREATED, response_model=CommentCreate
 )
-async def create_comment(
+async def create_comment_route(
     postId: int,
-    commentText: str,
+    comment: CommentCreate,
     db: Session = Depends(connect_db),
     authenticateUser=Depends(get_current_user),
 ):
-    pass
+    return await create_comment(
+        postId=postId,
+        commentText=comment.commentText,
+        db=db,
+        userId=authenticateUser["id"],
+    )
 
 
 @CommentRouter.get(
@@ -50,9 +56,11 @@ async def get_single_comment(
 async def update_single_comment(
     postId: int,
     commentId: int,
+    comment: CommentUpdate,
     db: Session = Depends(connect_db),
     authenticateUser=Depends(get_current_user),
 ):
+
     pass
 
 

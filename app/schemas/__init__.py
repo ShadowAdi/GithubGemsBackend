@@ -17,3 +17,4 @@ from .CommentSchema import (
 
 UserResponse.model_rebuild()
 RepoResponse.model_rebuild()
+CommentResponse.model_rebuild()

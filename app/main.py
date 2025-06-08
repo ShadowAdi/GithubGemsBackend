@@ -10,7 +10,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from .database import engine, Base
 from app.utils import add_cors
-from app.routes import UserRouter,AuthRouter,RepoRouter
+from app.routes import UserRouter,AuthRouter,RepoRouter,CommentRouter
 
 
 Base.metadata.create_all(bind=engine)
@@ -31,6 +31,7 @@ def check_health():
 app.include_router(UserRouter)
 app.include_router(AuthRouter)
 app.include_router(RepoRouter)
+app.include_router(CommentRouter)
 
 
 
