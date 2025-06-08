@@ -1,67 +1,15 @@
-2025-06-07 12:15:21,450 - app.config.logger - ERROR - Not Found
-2025-06-07 12:18:10,345 - app.config.logger - ERROR - Method Not Allowed
-2025-06-07 12:18:26,406 - app.config.logger - ERROR - Not authenticated
-2025-06-07 12:20:07,391 - app.config.logger - ERROR - Error login user: 'User' object has no attribute 'model_dump'
-2025-06-07 12:20:07,484 - app.config.logger - ERROR - Something went wrong while  login user
-2025-06-07 12:23:53,547 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:24:24,868 - app.config.logger - ERROR - Method Not Allowed
-2025-06-07 12:24:30,214 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:30:29,667 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:31:04,606 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:35:50,425 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:36:25,832 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:40:03,071 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:40:13,058 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:41:33,181 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:42:29,850 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:42:34,859 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:43:07,556 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:44:48,575 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:46:41,718 - app.config.logger - ERROR - Invalid or Expired Token
-2025-06-07 12:51:19,766 - app.config.logger - ERROR - Not Able To delete The User with this id: 2
-2025-06-07 12:51:19,768 - app.config.logger - ERROR - Something went wrong while deleting user with id: 2
-2025-06-07 12:53:29,778 - app.config.logger - ERROR - Internal Server Error Occurred 'NoneType' object has no attribute 'id'
-2025-06-07 12:53:51,585 - app.config.logger - ERROR - Not Found
-2025-06-07 12:54:08,415 - app.config.logger - ERROR - Not Found
-2025-06-07 22:25:20,996 - app.config.logger - ERROR - Not Found
-2025-06-07 22:26:01,210 - app.config.logger - ERROR - Not Found
-2025-06-07 22:31:35,686 - app.config.logger - ERROR - Not Found
-2025-06-07 22:31:52,353 - app.config.logger - ERROR - Not Found
-2025-06-07 22:33:07,158 - app.config.logger - ERROR - Not Found
-2025-06-07 22:33:15,412 - app.config.logger - ERROR - Not authenticated
-2025-06-07 22:34:28,136 - app.config.logger - ERROR - Error fetching repo posts: (psycopg2.errors.UndefinedColumn) column postednotes.upvotedUserIds does not exist
-LINE 1: ...ner", postednotes.user_id AS postednotes_user_id, postednote...
-                                                             ^
+2025-06-08 11:38:02,202 - app.config.logger - ERROR - Internal Server Error Occurred 2 validation errors:
+  {'type': 'missing', 'loc': ('response', 'userId'), 'msg': 'Field required', 'input': <app.models.PostedRepoModel.PostedRepos object at 0x000001EA35E51190>}
+  {'type': 'missing', 'loc': ('response', 'repoPostedBy', 'postedRepos', 0, 'userId'), 'msg': 'Field required', 'input': <app.models.PostedRepoModel.PostedRepos object at 0x000001EA35E51190>}
 
-[SQL: SELECT postednotes.id AS postednotes_id, postednotes."repoName" AS "postednotes_repoName", postednotes."repoDescription" AS "postednotes_repoDescription", postednotes."repoPrimaryLanguage" AS "postednotes_repoPrimaryLanguage", postednotes."repoId" AS "postednotes_repoId", postednotes."repoCustomLabels" AS "postednotes_repoCustomLabels", postednotes."repoHtmlUrl" AS "postednotes_repoHtmlUrl", postednotes."repoUrl" AS "postednotes_repoUrl", postednotes."repoTopics" AS "postednotes_repoTopics", postednotes."repoCloneUrl" AS "postednotes_repoCloneUrl", postednotes."repoGitUrl" AS "postednotes_repoGitUrl", postednotes."repoOpenIssuesCount" AS "postednotes_repoOpenIssuesCount", postednotes."repoForksCount" AS "postednotes_repoForksCount", postednotes."repoCustomTags" AS "postednotes_repoCustomTags", postednotes."repoOwner" AS "postednotes_repoOwner", postednotes.user_id AS postednotes_user_id, postednotes."upvotedUserIds" AS "postednotes_upvotedUserIds", postednotes."downvotedUserIds" AS "postednotes_downvotedUserIds", postednotes."upvotesCount" AS "postednotes_upvotesCount", postednotes."downvotesCount" AS "postednotes_downvotesCount" 
-FROM postednotes 
- LIMIT %(param_1)s OFFSET %(param_2)s]
-[parameters: {'param_1': 10, 'param_2': 0}]
-(Background on this error at: https://sqlalche.me/e/20/f405)
-2025-06-07 22:34:28,340 - app.config.logger - ERROR - Something went wrong while fetching repo posts. (psycopg2.errors.UndefinedColumn) column postednotes.upvotedUserIds does not exist
-LINE 1: ...ner", postednotes.user_id AS postednotes_user_id, postednote...
-                                                             ^
+2025-06-08 11:47:27,143 - app.config.logger - ERROR - Internal Server Error Occurred 1 validation errors:
+  {'type': 'missing', 'loc': ('response', 0, 'userId'), 'msg': 'Field required', 'input': <app.models.PostedRepoModel.PostedRepos object at 0x000002557A68B860>}
 
-[SQL: SELECT postednotes.id AS postednotes_id, postednotes."repoName" AS "postednotes_repoName", postednotes."repoDescription" AS "postednotes_repoDescription", postednotes."repoPrimaryLanguage" AS "postednotes_repoPrimaryLanguage", postednotes."repoId" AS "postednotes_repoId", postednotes."repoCustomLabels" AS "postednotes_repoCustomLabels", postednotes."repoHtmlUrl" AS "postednotes_repoHtmlUrl", postednotes."repoUrl" AS "postednotes_repoUrl", postednotes."repoTopics" AS "postednotes_repoTopics", postednotes."repoCloneUrl" AS "postednotes_repoCloneUrl", postednotes."repoGitUrl" AS "postednotes_repoGitUrl", postednotes."repoOpenIssuesCount" AS "postednotes_repoOpenIssuesCount", postednotes."repoForksCount" AS "postednotes_repoForksCount", postednotes."repoCustomTags" AS "postednotes_repoCustomTags", postednotes."repoOwner" AS "postednotes_repoOwner", postednotes.user_id AS postednotes_user_id, postednotes."upvotedUserIds" AS "postednotes_upvotedUserIds", postednotes."downvotedUserIds" AS "postednotes_downvotedUserIds", postednotes."upvotesCount" AS "postednotes_upvotesCount", postednotes."downvotesCount" AS "postednotes_downvotesCount" 
-FROM postednotes 
- LIMIT %(param_1)s OFFSET %(param_2)s]
-[parameters: {'param_1': 10, 'param_2': 0}]
-(Background on this error at: https://sqlalche.me/e/20/f405)
-2025-06-07 22:48:49,672 - app.config.logger - ERROR - Failed To Created User
-2025-06-07 22:48:49,679 - app.config.logger - ERROR - Something went wrong while creating user.
-2025-06-07 22:53:08,708 - app.config.logger - ERROR - Not Found
-2025-06-07 22:53:24,669 - app.config.logger - ERROR - Validation Failed [{'type': 'url_parsing', 'loc': ('body', 'repoUrl'), 'msg': 'Input should be a valid URL, input is empty', 'input': '', 'ctx': {'error': 'input is empty'}}]
-2025-06-07 22:54:00,323 - app.config.logger - ERROR - Failed to post repo which has the repo url of https://github.com/mpiorowski/the-game and the error is cannot access local variable 'url' where it is not associated with a value
-2025-06-07 22:54:00,404 - app.config.logger - ERROR - Something went wrong while posting repo with https://github.com/mpiorowski/the-game and the error is cannot access local variable 'url' where it is not associated with a value
-2025-06-07 22:55:31,865 - app.config.logger - ERROR - Failed to post repo which has the repo url of https://github.com/mpiorowski/the-game and the error is 'HttpUrl' object has no attribute 'strip'
-2025-06-07 22:55:31,943 - app.config.logger - ERROR - Something went wrong while posting repo with https://github.com/mpiorowski/the-game and the error is 'HttpUrl' object has no attribute 'strip'
-2025-06-07 22:58:31,992 - app.config.logger - ERROR - Failed to post repo which has the repo url of https://github.com/mpiorowski/the-game and the error is 'HttpUrl' object has no attribute 'split'
-2025-06-07 22:58:32,091 - app.config.logger - ERROR - Something went wrong while posting repo with https://github.com/mpiorowski/the-game and the error is 'HttpUrl' object has no attribute 'split'
-2025-06-07 22:59:38,747 - app.config.logger - WARNING - GitHub API failed for the-game/mpiorowski. Status: 404
-2025-06-07 22:59:38,748 - app.config.logger - ERROR - Failed to get the Repo Information about Repo Name mpiorowski and Repo Owner Name the-game and error is: 404: GitHub API error for the-game/mpiorowski
-2025-06-07 22:59:38,748 - app.config.logger - ERROR - Failed to post repo which has the repo url of https://github.com/mpiorowski/the-game and the error is 500: Failed to get the Repo Information about Repo Name mpiorowski and Repo Owner Name the-game and error is: 404: GitHub API error for the-game/mpiorowski
-2025-06-07 22:59:38,838 - app.config.logger - ERROR - Something went wrong while posting repo with https://github.com/mpiorowski/the-game and the error is 500: Failed to get the Repo Information about Repo Name mpiorowski and Repo Owner Name the-game and error is: 404: GitHub API error for the-game/mpiorowski
-2025-06-07 23:03:35,933 - app.config.logger - ERROR - Internal Server Error Occurred 2 validation errors:
-  {'type': 'url_scheme', 'loc': ('response', 'repoGitUrl'), 'msg': "URL scheme should be 'http' or 'https'", 'input': 'git://github.com/mpiorowski/the-game.git', 'ctx': {'expected_schemes': "'http' or 'https'"}}
-  {'type': 'int_type', 'loc': ('response', 'repoPostedBy', 'postedRepos', 0), 'msg': 'Input should be a valid integer', 'input': <app.models.PostedRepoModel.PostedRepos object at 0x000002E22712E120>}
+2025-06-08 11:57:22,311 - app.config.logger - ERROR - Not authenticated
+2025-06-08 11:58:21,298 - app.config.logger - ERROR - Internal Server Error Occurred 'userId'
+2025-06-08 11:59:46,384 - app.config.logger - ERROR - Internal Server Error Occurred 'user_id'
+2025-06-08 12:01:07,734 - app.config.logger - ERROR - Error update repo posts with id 1: BaseModel.model_dump() missing 1 required positional argument: 'self'
+2025-06-08 12:01:07,816 - app.config.logger - ERROR - Something went wrong while updating repo posts. BaseModel.model_dump() missing 1 required positional argument: 'self'
+2025-06-08 12:11:17,802 - app.config.logger - ERROR - Internal Server Error Occurred 1 validation errors:
+  {'type': 'json_type', 'loc': ('response', 0, 'postedRepos', 0), 'msg': 'JSON input should be string, bytes or bytearray', 'input': <app.models.PostedRepoModel.PostedRepos object at 0x000001B397378800>}
 

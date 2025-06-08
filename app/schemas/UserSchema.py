@@ -1,29 +1,36 @@
+from typing import List, Optional, TYPE_CHECKING
 from pydantic import BaseModel, Field, EmailStr
-from typing import List, Optional
 
+if TYPE_CHECKING:
+    from app.schemas.RepoSchema import RepoResponse
 
 class UserSchema(BaseModel):
     username: str = Field(..., min_length=3)
     email: EmailStr
-    class config:
-        orm_mode=True
 
+    class Config:
+        from_attributes = True
 
 class UserCreation(UserSchema):
-    password: str = Field(...)
+    password: str
     languages: List[str]
 
+    class Config:
+        from_attributes = True
 
 class UserResponse(UserSchema):
     id: int
     languages: List[str]
-    postedRepos: List[int]
     comments: List[int]
-    class Config:
-        orm_mode = True
+    postedRepos: List["RepoBase"]  # Forward reference using string - import RepoBase if needed
 
+    class Config:
+        from_attributes = True
 
 class UserUpdate(BaseModel):
-    username: Optional[str] = None
-    email: Optional[EmailStr] = None
-    languages: Optional[list[str]] = None
+    username: Optional[str]
+    email: Optional[EmailStr]
+    languages: Optional[List[str]]
+
+    class Config:
+        from_attributes = True

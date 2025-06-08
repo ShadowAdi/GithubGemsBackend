@@ -1,7 +1,8 @@
-from pydantic import BaseModel, HttpUrl
-from .UserSchema import UserResponse
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
+from pydantic import BaseModel, HttpUrl, Field
 
+if TYPE_CHECKING:
+    from app.schemas.UserSchema import UserResponse
 
 class RepoCreate(BaseModel):
     repoUrl: str
@@ -10,8 +11,7 @@ class RepoCreate(BaseModel):
     repoTopics: Optional[List[str]] = []
 
     class Config:
-        orm_mode = True
-
+        from_attributes = True
 
 class RepoBase(BaseModel):
     id: int
@@ -28,23 +28,26 @@ class RepoBase(BaseModel):
     repoForksCount: int
     repoCustomTags: Optional[List[str]]
     repoOwner: dict
-
     upvotedUserIds: Optional[List[int]] = []
     downvotedUserIds: Optional[List[int]] = []
     upvotesCount: int
     downvotesCount: int
-    userId:int
+    user_id: int = Field(...)
 
     class Config:
-        orm_mode = True
-
+        from_attributes = True
 
 class RepoResponse(RepoBase):
-    repoPostedBy: UserResponse
+    repoPostedBy: "UserResponse"  # Forward reference using string
 
+    class Config:
+        from_attributes = True
 
 class RepoUpdate(BaseModel):
-    repoDescription: Optional[str] = None
-    repoCustomLabels: Optional[List[str]] = None
-    repoTopics: Optional[List[str]] = None
-    repoCustomTags: Optional[List[str]] = None
+    repoDescription: Optional[str]
+    repoCustomLabels: Optional[List[str]]
+    repoTopics: Optional[List[str]]
+    repoCustomTags: Optional[List[str]]
+
+    class Config:
+        from_attributes = True

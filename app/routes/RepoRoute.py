@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Body
 from app.schemas import RepoResponse, RepoCreate, RepoUpdate
 from sqlalchemy.orm import Session
 from app.dependency import get_current_user
@@ -36,7 +36,7 @@ async def get_repos(
 @RepoRouter.get(
     "/repo/{repoId}", status_code=status.HTTP_200_OK, response_model=RepoResponse
 )
-async def get_single_repo(repoId: int, db: Session = Depends(get_current_user)):
+async def get_single_repo(repoId: int, db: Session = Depends(connect_db)):
     return await get_repo(db=db, repoId=repoId)
 
 
@@ -47,10 +47,10 @@ async def update_repo(
     repoId: int,
     db: Session = Depends(connect_db),
     authenticateUser=Depends(get_current_user),
-    updatedRepo=RepoUpdate,
+    updatedRepo: RepoUpdate = Body(...),
 ):
     return await updateRepo(
-        db=db, repoId=repoId, userId=authenticateUser["userId"], postUpdate=updatedRepo
+        db=db, repoId=repoId, userId=authenticateUser["id"], postUpdate=updatedRepo
     )
 
 
@@ -62,4 +62,4 @@ async def delete_repo(
     db: Session = Depends(connect_db),
     authenticateUser=Depends(get_current_user),
 ):
-    return await deleteRepo(db=db, repoId=repoId, userId=authenticateUser["userId"])
+    return await deleteRepo(db=db, repoId=repoId, userId=authenticateUser["id"])

@@ -7,26 +7,46 @@ from app.utils import extract_owner_repo
 from app.models import PostedRepos, User
 
 
+from sqlalchemy.orm import Session, joinedload
+from fastapi import Depends, HTTPException
+from app.schemas import RepoResponse, RepoCreate, RepoUpdate
+from app.models import PostedRepos, User
+from app.api import GetRepoInfoUrl
+from app.config import logger
+from app.utils import extract_owner_repo
+
+
 async def create_repo_post(
     db: Session,
     repoCreate: RepoCreate,
     userId: int,
-):
+) -> RepoResponse:  # Specify return type
     try:
         db_user = db.query(User).filter(User.id == userId).first()
         if not db_user:
             logger.error(f"Not Able To Find The User with this id: {str(userId)}")
             raise HTTPException(
                 status_code=404,
-                detail=f"Something Went Wrong  While Fetching User with Id: {str(userId)}",
+                detail=f"Something Went Wrong While Fetching User with Id: {str(userId)}",
             )
-        
+
         repoOwnerName, repoName = extract_owner_repo(repoUrl=repoCreate.repoUrl)
-        print("repo name and repoOwnerName ", repoOwnerName, repoName)
 
         github_data = await GetRepoInfoUrl(
             repoName=repoName, repoOwnerName=repoOwnerName
         )
+        repoFind = (
+            db.query(PostedRepos)
+            .filter(PostedRepos.repoName == github_data["name"])
+            .first()
+        )
+        if repoFind:
+            logger.error(f"Repo already exists.")
+            raise HTTPException(
+                status_code=407,
+                detail=f"Repo with repo name {github_data["name"]} already exists",
+            )
+
         repo_model = PostedRepos(
             repoName=github_data["name"],
             repoDescription=github_data["description"],
@@ -34,7 +54,9 @@ async def create_repo_post(
             repoId=github_data["id"],
             repoCustomLabels=repoCreate.repoCustomLabels,
             repoUrl=github_data["url"],
-            repoHtmlUrl=github_data["description"],
+            repoHtmlUrl=github_data[
+                "html_url"
+            ],  # Fixed: was incorrectly set to "description"
             repoCloneUrl=github_data["clone_url"],
             repoGitUrl=github_data["git_url"],
             repoOpenIssuesCount=github_data["open_issues_count"],
@@ -47,7 +69,16 @@ async def create_repo_post(
         db.add(repo_model)
         db.commit()
         db.refresh(repo_model)
-        return repo_model
+
+        # Eagerly load the repoPostedBy relationship
+        repo_model = (
+            db.query(PostedRepos)
+            .options(joinedload(PostedRepos.repoPostedBy))
+            .filter(PostedRepos.id == repo_model.id)
+            .first()
+        )
+
+        return repo_model  # FastAPI will handle conversion to RepoResponse
     except Exception as e:
         logger.error(
             f"Failed to post repo which has the repo url of {str(repoCreate.repoUrl)} and the error is {str(e)}"

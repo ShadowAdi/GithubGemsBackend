@@ -11,7 +11,7 @@ class CommentModel(Base):
     commenterId = Column(Integer, ForeignKey("users.id"), nullable=False)
     commentCommentedBy = relationship("User", back_populates="comments")
 
-    postId = Column(Integer, ForeignKey("postednotes.id"), nullable=False)
+    postId = Column(Integer, ForeignKey("postedRepos.id"), nullable=False)
     commentPostedOn = relationship("PostedRepos", back_populates="comments")
 
     parentId=Column(Integer,ForeignKey("repoComments.id"),nullable=False)
