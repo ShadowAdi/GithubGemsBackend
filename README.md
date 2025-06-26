@@ -1,8 +1,8 @@
-💎 GitHubGems (Backend)
+# 💎 GitHubGems (Backend)
 
 GitHubGems is a backend API for a platform where users can discover, share, and discuss hidden gems on GitHub — fun, interactive, and underrated repositories.
 
-Users can:
+## Users can:
 
 🔐 Create accounts and log in
 
@@ -14,7 +14,7 @@ Users can:
 
 💎 Help others find creative, overlooked GitHub projects
 
-⚙️ Tech Stack
+## ⚙️ Tech Stack
 
 FastAPI – High-performance Python web framework
 
@@ -26,7 +26,7 @@ Pydantic – For request/response schema validation
 
 Alembic – Database migrations
 
-📦 Features (Backend)
+## 📦 Features (Backend)
 
 User registration & login (JWT-based)
 
@@ -40,7 +40,7 @@ Comment and discuss
 
 Tag-based filtering and search
 
-🛠️ Setup Instructions
+## 🛠️ Setup Instructions
 
 Clone the repo
 
@@ -64,7 +64,7 @@ SECRET_KEY=your_jwt_secret
 Run migrations
 
 
-Start the server
+## Start the server
 
 🤝 Contributing
 
